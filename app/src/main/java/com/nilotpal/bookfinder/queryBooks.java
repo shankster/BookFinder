@@ -31,7 +31,7 @@ public class queryBooks extends AppCompatActivity {
     }
 
     public static URL createUrl(String stringUrl, String keyword) throws MalformedURLException {
-        Log.e(LOG_TAG,"Program reaches createUrl");
+        Log.e(LOG_TAG, "Program reaches createUrl");
         String finalLink = stringUrl + keyword;
         URL url = null;
         url = new URL(finalLink);
@@ -47,7 +47,7 @@ public class queryBooks extends AppCompatActivity {
         }
 
         HttpURLConnection urlConnection = null;
-        InputStream inputStream=null;
+        InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setReadTimeout(10000);
@@ -61,74 +61,89 @@ public class queryBooks extends AppCompatActivity {
             } else {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
-            if(urlConnection != null){
+        } finally {
+            if (urlConnection != null) {
                 urlConnection.disconnect();
             }
-            if(inputStream != null){
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
-        Log.e(LOG_TAG,"Program reaches makeHttpRequest");
+        Log.e(LOG_TAG, "Program reaches makeHttpRequest");
         return jsonResponse;
 
     }
 
-    private static String readFromStream(InputStream inputStream) throws IOException{
-        StringBuilder output=new StringBuilder();
-        if(inputStream != null){
-            InputStreamReader inputStreamRead=new InputStreamReader(inputStream, Charset.forName("UTF-8"));
-            BufferedReader read=new BufferedReader(inputStreamRead);
-            String line= read.readLine();
-            while (line!=null){
+    private static String readFromStream(InputStream inputStream) throws IOException {
+        StringBuilder output = new StringBuilder();
+        if (inputStream != null) {
+            InputStreamReader inputStreamRead = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            BufferedReader read = new BufferedReader(inputStreamRead);
+            String line = read.readLine();
+            while (line != null) {
                 output.append(line);
-                line=read.readLine();
+                line = read.readLine();
             }
         }
-        Log.e(LOG_TAG,"Program reaches readFromStream");
+        Log.e(LOG_TAG, "Program reaches readFromStream");
         return output.toString();
     }
 
-    private static List<books> extractInfoFromJson(String booksJson){
-        if (TextUtils.isEmpty(booksJson)){
+    private static List<books> extractInfoFromJson(String booksJson) {
+        if (TextUtils.isEmpty(booksJson)) {
             return null;
         }
+        Log.e(LOG_TAG, "extractFromJson started");
 
-        List<books> books=new ArrayList<>();
+        List<books> books = new ArrayList<>();
 
         try {
-            JSONObject rootDoc=new JSONObject(booksJson);
-            JSONArray elementArray=rootDoc.getJSONArray("items");
-            for(int i=0;i<elementArray.length();i++){
-                JSONObject currentElement=elementArray.getJSONObject(i);
-                JSONObject volumeInfo=currentElement.getJSONObject("volumeInfo");
-                String element=volumeInfo.getString("title");
-//                Log.e(LOG_TAG,element);
-                books booksadd=new books(element);
-                books.add(booksadd);
-                Log.e(LOG_TAG,element+" is added to books");
-            }
 
-        }
-        catch (JSONException e)
-        {
+            JSONObject rootDoc = new JSONObject(booksJson);
+            JSONArray elementArray = rootDoc.getJSONArray("items");
+            for (int i = 0; i < elementArray.length(); i++) {
+                StringBuilder finalAuthorList = new StringBuilder();
+                JSONObject currentElement = elementArray.getJSONObject(i);
+                JSONObject volumeInfo = currentElement.getJSONObject("volumeInfo");
+                String element = volumeInfo.getString("title");
+                if (volumeInfo.has("authors")) {
+                    JSONArray authorsList = volumeInfo.getJSONArray("authors");
+                    String authorString[] = new String[authorsList.length()];
+                    for (int j = 0; j < authorString.length; j++) {
+                        authorString[j] = authorsList.getString(j);
+//                        if (authorString.length == 1) {
+                            finalAuthorList.append(authorString[j]).append(" ");
+//                        } else {
+//                            finalAuthorList.append(authorString[j]).append(",").append(" ");
+//                        }
+                            books booksadd = new books(element, finalAuthorList.toString());
+                            books.add(booksadd);
+                            Log.e(LOG_TAG, finalAuthorList.toString());
+//                        }
+                    }
+                    Log.e(LOG_TAG,"'"+ element+"'" + " is added to books");
+                }
+                else {
+                    books booksadd = new books(element, null);
+                    books.add(booksadd);
+                }
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e(LOG_TAG,"Program reaches extractInfoFromJson");
+        Log.e(LOG_TAG, "extractFromJson finished");
         return books;
     }
 
-    public static List<books> fetchBooksData(String requestUrl,String keyword) throws IOException {
-        URL url=createUrl(requestUrl,keyword);
-        String jsonResponse=null;
-        jsonResponse=makeHttpRequest(url);
+    public static List<books> fetchBooksData(String requestUrl, String keyword) throws IOException {
+        URL url = createUrl(requestUrl, keyword);
+        String jsonResponse = null;
+        jsonResponse = makeHttpRequest(url);
 
-        List<books> books=extractInfoFromJson(jsonResponse);
-        Log.e(LOG_TAG,"Program reaches fetchBooksData");
+        List<books> books = extractInfoFromJson(jsonResponse);
+        Log.e(LOG_TAG, "Program reaches fetchBooksData");
         return books;
 
     }

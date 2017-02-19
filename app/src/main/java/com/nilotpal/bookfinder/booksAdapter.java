@@ -32,6 +32,8 @@ public class booksAdapter extends ArrayAdapter<books> {
 
         TextView bookName=(TextView)listItemView.findViewById(R.id.bookListing);
         bookName.setText(newBooks.getBookName());
+        TextView authorName=(TextView)listItemView.findViewById(R.id.authorName);
+        authorName.setText(newBooks.getAuthor());
 
         Log.e(LOG_TAG,"Program reaches booksAdapter and list is populated");
         return listItemView;

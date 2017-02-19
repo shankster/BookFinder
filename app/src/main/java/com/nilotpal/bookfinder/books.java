@@ -11,11 +11,10 @@ public class books {
     public books(String bookName) {
         mBookName = bookName;
     }
-    public books(String bookName, String author, String url, String thumbnail) {
+    public books(String bookName, String author, String url) {
         mBookName = bookName;
         mAuthor = author;
         mUrl = url;
-        mThumbNail = thumbnail;
     }
     public books(String bookName, String author) {
         mBookName = bookName;
@@ -46,14 +45,6 @@ public class books {
 
     public void setUrl(String mUrl) {
         this.mUrl = mUrl;
-    }
-
-    public String getThumbNail() {
-        return mThumbNail;
-    }
-
-    public void setThumbNail(String mThumbNail) {
-        this.mThumbNail = mThumbNail;
     }
 }
 
