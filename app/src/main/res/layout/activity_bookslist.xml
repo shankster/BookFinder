@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.nilotpal.bookfinder.queryBooks"
-    android:backgroundTint="@color/colorAccent">
+    tools:context="com.nilotpal.bookfinder.queryBooks">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,9 +17,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="16dp"
-            android:text="Title"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:text="Title:"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/bookListing"
@@ -43,9 +42,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="16dp"
-            android:text="Author"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:text="Author:"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/authorName"
@@ -56,9 +55,11 @@
             tools:text="The Quick brown fox jumped over the fox" />
 
     </LinearLayout>
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="3dp"
-    android:background="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="8dp" />
 
 </LinearLayout>

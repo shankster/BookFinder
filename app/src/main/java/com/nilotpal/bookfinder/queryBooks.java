@@ -121,7 +121,6 @@ public class queryBooks extends AppCompatActivity {
                             finalAuthorString = finalAuthorString + authorsList.getString(j) + ","+" ";
                         }
                     }
-//                    finalAuthorString=formatFinalString(finalAuthorString);
                 }
                 else if(!volumeInfo.has("authors")){
                     finalAuthorString=finalAuthorString+"Data Not Available";
@@ -149,13 +148,5 @@ public class queryBooks extends AppCompatActivity {
         Log.e(LOG_TAG, "Program reaches fetchBooksData");
         return books;
 
-    }
-
-    private static  String formatFinalString(String text){
-        if(text.charAt(text.length())==','){
-            text=text.substring(0,(text.length()-1));
-        }
-        Log.e(LOG_TAG,text);
-        return text;
     }
 }
