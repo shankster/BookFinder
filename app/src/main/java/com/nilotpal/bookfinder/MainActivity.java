@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String LOG_TAG = MainActivity.class.getName();
     private static String link = " https://www.googleapis.com/books/v1/volumes?q=";
-    private static String keyword = "android";
+    private static String keyword = "";
     private booksAdapter mAdapter;
     private static final int BOOKS_LOADER_ID = 1;
     private TextView mEmptyStateTextView;
@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 EditText editText=(EditText) findViewById(R.id.searchText);
                 String replace= String.valueOf(editText.getText());
                 keyword=replace;
+                LoaderManager loaderManager = getLoaderManager();
+                loaderManager.initLoader(BOOKS_LOADER_ID, null, MainActivity.this);
 
             }
         });
@@ -62,11 +64,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(websiteIntent);
             }
         });
-
-        LoaderManager loaderManager = getLoaderManager();
-        loaderManager.initLoader(BOOKS_LOADER_ID, null, this);
-//        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-//        booksListView.setEmptyView(mEmptyStateTextView);
     }
 
     @Override

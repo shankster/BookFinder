@@ -32,8 +32,15 @@ public class booksAdapter extends ArrayAdapter<books> {
 
         TextView bookName=(TextView)listItemView.findViewById(R.id.bookListing);
         bookName.setText(newBooks.getBookName());
+
         TextView authorName=(TextView)listItemView.findViewById(R.id.authorName);
-        authorName.setText(newBooks.getAuthor());
+        String modifyName=newBooks.getAuthor();
+        int nameLength=modifyName.length();
+        Log.e(LOG_TAG,"Author: "+modifyName+"   length= "+nameLength);
+        if(modifyName.charAt(modifyName.length()-2)==','){
+            modifyName=modifyName.substring(0,(modifyName.length()-2));
+        }
+        authorName.setText(modifyName);
 
         Log.e(LOG_TAG,"Program reaches booksAdapter and list is populated");
         return listItemView;

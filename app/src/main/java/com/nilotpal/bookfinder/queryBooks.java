@@ -118,7 +118,7 @@ public class queryBooks extends AppCompatActivity {
                             finalAuthorString = finalAuthorString + authorsList.getString(j);
                         }
                         else {
-                            finalAuthorString = finalAuthorString + authorsList.getString(j) + ",";
+                            finalAuthorString = finalAuthorString + authorsList.getString(j) + ","+" ";
                         }
                     }
 //                    finalAuthorString=formatFinalString(finalAuthorString);
