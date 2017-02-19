@@ -37,11 +37,10 @@ public class booksAdapter extends ArrayAdapter<books> {
         String modifyName=newBooks.getAuthor();
         int nameLength=modifyName.length();
         Log.e(LOG_TAG,"Author: "+modifyName+"   length= "+nameLength);
-        if(modifyName.charAt(modifyName.length()-2)==','){
-            modifyName=modifyName.substring(0,(modifyName.length()-2));
-        }
+            if (modifyName.charAt(modifyName.length() - 2) == ',') {
+                modifyName = modifyName.substring(0, (modifyName.length() - 2));
+            }
         authorName.setText(modifyName);
-
         Log.e(LOG_TAG,"Program reaches booksAdapter and list is populated");
         return listItemView;
     }

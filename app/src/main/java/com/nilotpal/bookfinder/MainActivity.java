@@ -32,22 +32,33 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button=(Button) findViewById(R.id.button);
+
+
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 EditText editText=(EditText) findViewById(R.id.searchText);
                 String replace= String.valueOf(editText.getText());
-                keyword=replace;
+                StringBuilder formatter=new StringBuilder();
+                formatter.append(replace);
+                for(int i=0;i<formatter.length();i++){
+                    if(formatter.charAt(i)==' '){
+                        formatter.deleteCharAt(i);
+                    }
+                }
+                keyword=formatter.toString();
+                ListView booksListView = (ListView) findViewById(R.id.list);
+                mAdapter = new booksAdapter(MainActivity.this, new ArrayList<books>());
+                booksListView.setAdapter(mAdapter);
                 LoaderManager loaderManager = getLoaderManager();
                 loaderManager.initLoader(BOOKS_LOADER_ID, null, MainActivity.this);
 
             }
         });
-        ListView booksListView = (ListView) findViewById(R.id.list);
-        mAdapter = new booksAdapter(this, new ArrayList<books>());
-        booksListView.setAdapter(mAdapter);
+
 
         Log.e(LOG_TAG, "List is populated in " + LOG_TAG);
+        ListView booksListView = (ListView) findViewById(R.id.list);
         booksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {

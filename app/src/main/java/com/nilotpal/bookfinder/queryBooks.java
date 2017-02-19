@@ -117,11 +117,14 @@ public class queryBooks extends AppCompatActivity {
                         if(authorLength==1){
                             finalAuthorString = finalAuthorString + authorsList.getString(j);
                         }
-                        else {
+                        else if(authorLength>1) {
                             finalAuthorString = finalAuthorString + authorsList.getString(j) + ","+" ";
                         }
                     }
 //                    finalAuthorString=formatFinalString(finalAuthorString);
+                }
+                else if(!volumeInfo.has("authors")){
+                    finalAuthorString=finalAuthorString+"Data Not Available";
                 }
 
                 String linkURL=volumeInfo.getString("previewLink");
