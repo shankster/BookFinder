@@ -100,35 +100,35 @@ public class queryBooks extends AppCompatActivity {
         List<books> books = new ArrayList<>();
 
         try {
-
+            String finalAuthorString="";
             JSONObject rootDoc = new JSONObject(booksJson);
             JSONArray elementArray = rootDoc.getJSONArray("items");
             for (int i = 0; i < elementArray.length(); i++) {
-                StringBuilder finalAuthorList = new StringBuilder();
                 JSONObject currentElement = elementArray.getJSONObject(i);
                 JSONObject volumeInfo = currentElement.getJSONObject("volumeInfo");
                 String element = volumeInfo.getString("title");
+
                 if (volumeInfo.has("authors")) {
                     JSONArray authorsList = volumeInfo.getJSONArray("authors");
-                    String authorString[] = new String[authorsList.length()];
-                    for (int j = 0; j < authorString.length; j++) {
-                        authorString[j] = authorsList.getString(j);
-//                        if (authorString.length == 1) {
-                            finalAuthorList.append(authorString[j]).append(" ");
-//                        } else {
-//                            finalAuthorList.append(authorString[j]).append(",").append(" ");
-//                        }
-                            books booksadd = new books(element, finalAuthorList.toString());
-                            books.add(booksadd);
-                            Log.e(LOG_TAG, finalAuthorList.toString());
-//                        }
+                    Log.e(LOG_TAG, String.valueOf(authorsList.length()));
+                    final int authorLength=authorsList.length();
+                    for(int j=0;j<authorLength;j++){
+                        Log.e(LOG_TAG,authorsList.getString(j));
+                        if(authorLength==1){
+                            finalAuthorString = finalAuthorString + authorsList.getString(j);
+                        }
+                        else {
+                            finalAuthorString = finalAuthorString + authorsList.getString(j) + ",";
+                        }
                     }
-                    Log.e(LOG_TAG,"'"+ element+"'" + " is added to books");
+//                    finalAuthorString=formatFinalString(finalAuthorString);
                 }
-                else {
-                    books booksadd = new books(element, null);
-                    books.add(booksadd);
-                }
+
+                String linkURL=volumeInfo.getString("previewLink");
+                Log.e(LOG_TAG,linkURL);
+                books book=new books(element,finalAuthorString,linkURL);
+                books.add(book);
+                finalAuthorString="";
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -146,5 +146,13 @@ public class queryBooks extends AppCompatActivity {
         Log.e(LOG_TAG, "Program reaches fetchBooksData");
         return books;
 
+    }
+
+    private static  String formatFinalString(String text){
+        if(text.charAt(text.length())==','){
+            text=text.substring(0,(text.length()-1));
+        }
+        Log.e(LOG_TAG,text);
+        return text;
     }
 }

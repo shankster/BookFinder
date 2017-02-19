@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,10 +31,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button button=(Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                EditText editText=(EditText) findViewById(R.id.searchText);
+                String replace= String.valueOf(editText.getText());
+                keyword=replace;
 
+            }
+        });
         ListView booksListView = (ListView) findViewById(R.id.list);
         mAdapter = new booksAdapter(this, new ArrayList<books>());
         booksListView.setAdapter(mAdapter);
+
         Log.e(LOG_TAG, "List is populated in " + LOG_TAG);
         booksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
